@@ -1,0 +1,25 @@
+https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
+https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+https://www.password-hashing.net/argon2-specs.pdf
+https://stackoverflow.com/questions/58431973/argon2-library-that-hashes-passwords-without-a-secret-and-with-a-random-salt-tha
+https://docs.djangoproject.com/en/3.1/topics/auth/passwords/
+
+"By default, Django uses the PBKDF2 algorithm with a SHA256 hash, a password stretching mechanism recommended by NIST."
+
+
+Advantages:
+1) Uses one-side transformation -> Can not obtain original password from password`s transformed state
+
+2) This has salt -> If users have identical passwords salt prevents from equal "hashes" for them!!!
+!!! TODO: add why is good (defend against rainbow tables)
+!!! TODO: analyse default salt settings in django
+
+3) This has strong hashing !!! TODO: add why is good
+
+4) This has 216000 round of iterations (Django==3.1.4)
+Documentation states that "We’ve chosen a reasonable default (and will increase it with each release of Django)"
+!!! TODO: add why is good (Increases hashing time to defend against brute force)
+
+Disadvantages
+
+1) Mem complexity !!! TODO: investigate further
