@@ -23,9 +23,19 @@ PBKDF2:
         this number of iterations is not enough in 2020
         Defends against brute forcing password dictionaries
 
-Django has no pre-hashing for passwords. Uses max amount of bytes 4096 for password
-PBKDF2 has low mem-complexity.
+Detected problems:
+    Django has no pre-hashing for passwords. Uses max amount of bytes 4096 for password
+    PBKDF2 has low mem-complexity.
 
+Solving:
+    To improve default storage settings Ill change default hashing algorithm to Argon2.
+    And will add pre-hashing with sha512 for passwords.
+
+    Argon2 can have high mem-complexity and parallel calculation that leads to better defence against GPU attack threats.
+    Pre-hashing allows to remove max amount of bytes for password restriction
+
+Possible further improvements:
+    TODO: name further possible improvements
 
 https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
 https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
