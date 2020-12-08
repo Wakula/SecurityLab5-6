@@ -34,8 +34,35 @@ Solving:
     Argon2 can have high mem-complexity and parallel calculation that leads to better defence against GPU attack threats.
     Pre-hashing allows to remove max amount of bytes for password restriction
 
+
+DEFAULT PASSWORD REQUIREMENTS:
+
+1) min length = 8
+
+2) user attributes max similarity = 0.7
+   DEFAULT_USER_ATTRIBUTES = ('username', 'first_name', 'last_name', 'email')
+
+3) password cant be in list of 20000 most common passwords
+
+4) password can not be entirely numeric
+
+This is not quite enough for our Secure service. Following NIST guidelines https://stealthbits.com/blog/nist-password-guidelines/
+I will improve password requirements.
+
+ 1) OK
+ 2) decrease max similarity to 0.55
+ 3) Will add to this additional layer.
+    Check if password is already breached using pwned-passwords-django PwnedPasswordsValidator.
+    That uses api of https://haveibeenpwned.com/Passwords to check for passwords. Has 613,584,246 passwords.
+ 4) OK
+ 5) Add repeating Character sequence validation
+
+
 Possible further improvements:
-    TODO: name further possible improvements
+    Honeypot. Add fake users with most common password into database and track if somebody tries to login with their credentials.
+    Further password requirements improvement.
+
+Links to used resources
 
 https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
 https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
@@ -43,3 +70,4 @@ https://www.password-hashing.net/argon2-specs.pdf
 https://stackoverflow.com/questions/58431973/argon2-library-that-hashes-passwords-without-a-secret-and-with-a-random-salt-tha
 https://docs.djangoproject.com/en/3.1/topics/auth/passwords/
 https://en.wikipedia.org/wiki/Cryptographic_hash_function
+https://www.linkedin.com/pulse/protecting-django-app-from-password-guessing-attacks-jerin-jose/

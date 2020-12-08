@@ -1,3 +1,4 @@
 Django==3.1.4
 argon2-cffi==20.1.0
 psycopg2==2.8.6
+pwned-passwords-django==1.4.1
