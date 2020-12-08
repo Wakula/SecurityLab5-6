@@ -1,0 +1,32 @@
+Algorithm XChaCha20-Poly1305:
+    1) libsodium recommends this as AEAD construction https://libsodium.gitbook.io/doc/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction
+    2) For encryption I will use https://github.com/pyca/pynacl
+        that is a binding to libsodium lib and is listed in https://doc.libsodium.org/bindings_for_other_languages
+
+Random key generation:
+    1) od -vAn -N16 -tu4 < /dev/random
+       converted 16bytes from /dev/random CSPRNG into four unsigned decimals and got a random number from it
+    NOTE: probably could read from /dev/urandom.
+
+Storing key:
+    1) For this part I choose to store key locally without KMS, so 'envelope encryption' is not an option,
+        because DEKs and KEKs should be stored in separate environments.
+        store key in filesystem so that if our db is stolen out key is not compromised and visa versa.
+
+    NOTE: I understand that using Amazon/Google KMS with envelope encryption leads to much better security than storing key locally.
+
+Restricting access to secret key:
+    TODO: find a way to restrict access to key
+
+Further improvements:
+    Introduce key rotation/lifetime.
+    Use KMS with envelope encryption
+    Do not store sensitive data
+
+Links to used resources
+
+https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html#secure-random-number-generation
+https://latacora.micro.blog/2018/04/03/cryptographic-right-answers.html
+https://cloud.google.com/kms/docs/envelope-encryption
+https://libsodium.gitbook.io/doc/
+https://pypi.org/project/PyNaCl/
