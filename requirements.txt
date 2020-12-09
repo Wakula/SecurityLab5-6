@@ -3,3 +3,4 @@ argon2-cffi==20.1.0
 psycopg2==2.8.6
 pwned-passwords-django==1.4.1
 PyNaCl==1.4.0
+uWSGI==2.0.19.1

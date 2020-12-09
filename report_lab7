@@ -1,0 +1,9 @@
+Recommendations for cipher suits and TLS version
+https://cheatsheetseries.owasp.org/cheatsheets/TLS_Cipher_String_Cheat_Sheet.html
+
+Setup uwsgi with nginx
+https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
+
+Applying TLS to nginx
+https://unix.stackexchange.com/questions/288517/how-to-make-self-signed-certificate-for-localhost/322083
+https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
