@@ -13,7 +13,7 @@ DATA ENCRYPTION:
             Use /dev/urandom for Nonce because it is a non-blocking source.
             /dev/random blocks if there is not enough entropy information to generate CSPRN.
 
-Storing key:
+STORING KEY:
     1) For this part I choose to store key locally without KMS, so 'envelope encryption' is not an option,
         because DEKs and KEKs should be stored in separate environments.
         The key is stored in a filesystem so that if our db is stolen key remains uncompromised or visa versa.
@@ -40,6 +40,11 @@ Storing key:
 
         source: https://askubuntu.com/questions/636092/how-to-get-sudo-to-prompt-you-for-a-password-each-time
 
+
+VULNERABILITIES:
+    1) root user has access to file.
+    2) password for the authoritative user can be compromised
+    3) logs from server can compromise the key so that non-authoritative users will see it
 
 
 Further improvements:
