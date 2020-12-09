@@ -1,9 +1,10 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login as auth_login
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
-
-from storage.forms import SecureRegistrationForm, LoginForm
+from storage.models import SecureUser
+from storage.forms import SecureRegistrationForm, LoginForm, UserDataForm
 
 
 def registration(request):
@@ -11,6 +12,7 @@ def registration(request):
         form = SecureRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('/storage/login/')
         return render(request, 'storage/registration.html', {'form': form})
     return render(request, 'storage/registration.html', {'form': SecureRegistrationForm()})
 
@@ -22,9 +24,37 @@ def login(request):
             cd = form.cleaned_data
             user = authenticate(username=cd['username'], password=cd['password'])
             if user:
-                return HttpResponse('Authenticated successfully')
+                auth_login(request, user)
+                return redirect('/storage/users/')
             else:
                 return HttpResponse('Invalid login')
     else:
         form = LoginForm()
     return render(request, 'storage/login.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = UserDataForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+        print(form.errors)
+        return render(request, 'storage/profile.html', {'form': form})
+    username = request.user.username
+    address = request.user.address
+    return render(
+        request,
+        'storage/profile.html',
+        {
+            'form': UserDataForm(initial={
+                'username': username,
+                'address': address
+            })
+        })
+
+
+@login_required
+def users(request):
+    if request.method == 'GET':
+        return render(request, 'storage/users.html', {'users': SecureUser.objects.all()})

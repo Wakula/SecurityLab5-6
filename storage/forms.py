@@ -11,3 +11,9 @@ class SecureRegistrationForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class UserDataForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['address', 'username']

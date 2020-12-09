@@ -1,0 +1,5 @@
+{% block content %}
+{% for user in users %}
+    <p>Username: {{user.username}} | Address: {{user.address}}</p>
+{% endfor %}
+{% endblock %}

@@ -45,12 +45,27 @@ VULNERABILITIES:
     1) root user has access to file.
     2) password for the authoritative user can be compromised
     3) logs from server can compromise the key so that non-authoritative users will see it
+    4) All the sensitive data is encrypted with only one key so all the data will be compromised if key is retrieved somehow
 
 
 Further improvements:
     Introduce key rotation/lifetime.
     Use KMS with envelope encryption
     Do not store sensitive data
+
+STORAGE DOCUMENTATION:
+    'Generate secret key file. And put it in environment(file name, not key)'
+    ./sensitive_data/csprng.sh <secret_key_file>
+    export SENSITIVE_DATA_SECRET_KEY_FILE=<secret_key_file>
+
+    'To use Encryption it is required to extend SensitiveDataMixin and add sensitive_fields.'
+    YourModel(SensitiveDataMixin, models.Model):
+        my_extremely_sensitive_info = ...
+        ...
+        class Sensitive:
+            sensitive_fields = (my_extremely_sensitive_info, ...)
+
+    Warning  QuerySet update, bulk_update is not supported right now
 
 Links to used resources
 
