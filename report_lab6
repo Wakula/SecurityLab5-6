@@ -1,22 +1,46 @@
-Algorithm XChaCha20-Poly1305:
-    1) libsodium recommends this as AEAD construction https://libsodium.gitbook.io/doc/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction
-    2) For encryption I will use https://github.com/pyca/pynacl
-        that is a binding to libsodium lib and is listed in https://doc.libsodium.org/bindings_for_other_languages
+DATA ENCRYPTION:
+    XChaCha20-Poly1305:
+        1) libsodium recommends this as AEAD construction https://libsodium.gitbook.io/doc/secret-key_cryptography/aead/chacha20-poly1305/xchacha20-poly1305_construction
+        2) For encryption I will use https://github.com/pyca/pynacl
+            that is a binding to libsodium lib and is listed in https://doc.libsodium.org/bindings_for_other_languages
 
-Random key generation:
-    1) od -vAn -N16 -tu4 < /dev/random
-       converted 16bytes from /dev/random CSPRNG into four unsigned decimals and got a random number from it
-    NOTE: probably could read from /dev/urandom.
+    CSPRNG:
+        1) using key_manager.generate_random_key generate 256 bit key with the help of /dev/random
+            This generates csprn with good properties because it is close to really random values.
+
+    Nonce:
+        2) using key_manager.generate_nonce generates 192 bit nonce with the help of /dev/urandom
+            Use /dev/urandom for Nonce because it is a non-blocking source.
+            /dev/random blocks if there is not enough entropy information to generate CSPRN.
 
 Storing key:
     1) For this part I choose to store key locally without KMS, so 'envelope encryption' is not an option,
         because DEKs and KEKs should be stored in separate environments.
-        store key in filesystem so that if our db is stolen out key is not compromised and visa versa.
+        The key is stored in a filesystem so that if our db is stolen key remains uncompromised or visa versa.
+        The file has restricted access to only one authoritative user so that other users cannot access/modify its content
+        The file is not included into vcs for the same reason
+        The key is not stored in an environment variable because there are ways to expose it /proc/self/environ
 
     NOTE: I understand that using Amazon/Google KMS with envelope encryption leads to much better security than storing key locally.
 
-Restricting access to secret key:
-    TODO: find a way to restrict access to key
+    2) Restricting access to secret key:
+        created new user 'secret_key_owner' and created file with access only for this user.
+
+        commands:
+            sudo touch secret_key
+            chmod 700 secret_key
+
+            sudo adduser non-authoritative-user
+            su - non-authoritative-user
+            cat /home/rukadelica/PycharmProjects/SecurityLab5-6/secret_key
+              Permission denied
+
+        NOTE: I understand that all root users can still access this file and modify it.
+              The ability to gain root rights should be managed properly.
+
+        source: https://askubuntu.com/questions/636092/how-to-get-sudo-to-prompt-you-for-a-password-each-time
+
+
 
 Further improvements:
     Introduce key rotation/lifetime.
