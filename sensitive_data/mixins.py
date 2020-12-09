@@ -16,7 +16,6 @@ class SensitiveDataMixin:
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         for sensitive_field in self.Sensitive.sensitive_fields:
-            sensitive_data = getattr(self, sensitive_field)
-            if sensitive_data:
-                setattr(self, sensitive_field, encrypt(sensitive_data))
+            sensitive_data = getattr(self, sensitive_field, '')
+            setattr(self, sensitive_field, encrypt(sensitive_data))
         super().save(force_insert, force_update, using, update_fields)

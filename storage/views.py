@@ -39,7 +39,6 @@ def profile(request):
         form = UserDataForm(data=request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-        print(form.errors)
         return render(request, 'storage/profile.html', {'form': form})
     username = request.user.username
     address = request.user.address

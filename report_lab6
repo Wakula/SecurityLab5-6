@@ -65,6 +65,7 @@ STORAGE DOCUMENTATION:
         class Sensitive:
             sensitive_fields = (my_extremely_sensitive_info, ...)
 
+    Warning right now only 'str' type is supported
     Warning  QuerySet update, bulk_update is not supported right now
 
 Links to used resources

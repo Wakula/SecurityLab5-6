@@ -1,5 +1,4 @@
 import sys
-import os
 
 KEY_SIZE_BITS = 256
 NONCE_SIZE_BITS = 192
@@ -25,6 +24,5 @@ def key_to_bytes(key: int):
 
 
 def read_key(file_name):
-    print(os.getcwd())
     with open(f'sensitive_data/{file_name}') as f:
         return key_to_bytes(int(f.readline()))
