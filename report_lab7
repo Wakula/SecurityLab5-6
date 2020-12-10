@@ -7,3 +7,10 @@ https://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html
 Applying TLS to nginx
 https://unix.stackexchange.com/questions/288517/how-to-make-self-signed-certificate-for-localhost/322083
 https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
+
+
+Add uwsgi+nginx setup.
+To run server uwsgi --socket :8001 --module main.wsgi
+storage.conf is nginx configuration file that is
+located in /etc/nginx/modules-available/
+when enabled goes into /etc/nginx/modules-enabled
